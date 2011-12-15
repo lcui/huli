@@ -20,6 +20,8 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 set spell
+map ,t :tabnew <C-R>=expand("%:p:h") . "/" <CR>
+map ,e :e <C-R>=expand("%:p:h") . "/" <CR>
 
 set fileformats=unix,dos,mac
 
@@ -53,12 +55,9 @@ highlight SpecialKey cterm=underline ctermfg=darkgrey
 
 set smartindent
 set autoindent
-set iskeyword-=_
 set scrolloff=5
 
 "colorscheme murphy
-" tags settings
-"set tags=C:\Programe\\\ Files\vtag
 
 " complete type
 set wildmode=longest,full
@@ -96,6 +95,14 @@ set ts=4 sw=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
+
+language messages en
+set iminsert=0
+set imsearch=0
+
+" source code style
+set cino +=(0,W4
+set cino +=:0
 
 function LocalDiff2Depot()
     on
@@ -135,8 +142,6 @@ map ,g :call LocalDiffToGIT()<cr>
 map ,l :call LocalChangeList()<cr>
 
 
-" cscope settings
-"cs add ~/cs/main/cscope.out
 " quickfix settings, use cwindow to show the search result
 " use h csqf to check the help
 set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-
