@@ -1,21 +1,32 @@
-#
-#usage: python make_cscope.py <path>
-#
 import os, sys
+#################################
+#Usage: python generate.py dir
+#################################
 
-try:
-    rootdir = sys.argv.pop(1)
-except:
-    rootdir = "/work/jack"
+def dirwalk(dir):
+    "walk a directory tree, using a generator"
+    for f in os.listdir(dir):
+        fullpath = os.path.join(dir,f)
+        if os.path.isdir(fullpath) and not os.path.islink(fullpath):
+            for x in dirwalk(fullpath):  # recurse into subdir
+                yield x
+        else:
+            yield fullpath
 
-rootdir = os.path.abspath(rootdir)
-
-print "rootdir is: %s" % rootdir
-
-find_cmd = 'find %s -type d -name ".git" -prune -o -type d -name "out" -prune -o -type d -name "_out" -prune -o -name "*.[ch]" -o -name "*.[ch]pp" -o -name "*.java" > /tmp/cscope.files' % rootdir
-
-os.system(find_cmd)
-print "cscope.files is done."
-os.system("cd /tmp && cscope -b && cp cscope.out %s && rm -f cscope.out" % rootdir)
-print "cscope.out is created at %s." % rootdir
-
+def make_filelist(dir):
+    if not dir:
+        dir = "."
+    dir = os.path.normpath(os.path.abspath(dir))
+    print dir
+    fout = open("cscope.files", "w")
+    extlist = [".c", ".cpp", ".h", ".cxx", ".hxx", ".java"]
+    for ff in dirwalk(dir):
+        root, ext = os.path.splitext(ff)
+        ext = ext.lower()
+        if ext in extlist:
+            fout.write(ff+"\n")
+            
+if __name__ == "__main__":
+    dir = sys.argv[1]
+    make_filelist(dir)
+    os.system("cscope -b")
