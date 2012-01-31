@@ -13,8 +13,11 @@ def dirwalk(dir):
             yield fullpath
 
 
-def get_commit_files(commit_id):
-    git_cmd = "git show --pretty='format:' --name-only %s" % commit_id
+def get_commit_files(commit_id2, commit_id):
+    if commit_id2:
+        git_cmd = "git diff --pretty='format:' --name-only %s %s" % (commit_id, commit_id2)
+    else:
+        git_cmd = "git show --pretty='format:' --name-only %s" % commit_id
     print git_cmd
     return [ff.strip() for ff in os.popen(git_cmd).readlines()]
 
@@ -40,8 +43,18 @@ def copy_files(files, dst_dir, commit_id):
 
 
 if __name__=="__main__":
+    if len(sys.argv)< 3:
+        print "usage: python cmtfiles.py new_commit old_commit target_folder"
+        print "or: python cmtfiles.py commit target_folder"
+        exit(0)
+
     commit_id = sys.argv[1]
-    dst_dir = sys.argv[2]
+    commit_id2 = ""
+    if len(sys.argv) == 4 :
+        commit_id2 = sys.argv[2]
+        dst_dir = sys.argv[3]
+    else: 
+        dst_dir = sys.argv[2]
     print commit_id
-    files = get_commit_files(commit_id)
+    files = get_commit_files(commit_id2, commit_id)
     copy_files(files, dst_dir, commit_id)
