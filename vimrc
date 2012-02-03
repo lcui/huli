@@ -33,7 +33,7 @@ set ignorecase
 set smartcase
 set wrapscan
 set noincsearch
-set isk+=-,?,_
+set isk+=?,_
 
 " display related settings
 set title
@@ -69,6 +69,10 @@ set guioptions-=T
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <C-SPACE> :simalt ~x<CR>
 map <A-SPACE> :simalt ~r<CR>
+
+nmap ,h  :sf %:t:r.h<CR>
+nmap ,c  :sf %:t:r.c<CR>
+nmap ,C  :sf %:t:r.cpp<CR>
 
 if has("autocmd")
     filetype plugin indent on
