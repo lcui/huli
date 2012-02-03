@@ -16,12 +16,9 @@ if &t_Co > 2 || has("gui_running")
     syntax on
     set hlsearch
     set guioptions-=T
-    set isk+=-,?,_
 endif
 
 set spell
-map ,t :tabnew <C-R>=expand("%:p:h") . "/" <CR>
-map ,e :e <C-R>=expand("%:p:h") . "/" <CR>
 
 set fileformats=unix,dos,mac
 
@@ -36,6 +33,7 @@ set ignorecase
 set smartcase
 set wrapscan
 set noincsearch
+set isk+=-,?,_
 
 " display related settings
 set title
@@ -55,6 +53,7 @@ highlight SpecialKey cterm=underline ctermfg=darkgrey
 
 set smartindent
 set autoindent
+set iskeyword-=_
 set scrolloff=5
 
 "colorscheme murphy
@@ -95,10 +94,6 @@ set ts=4 sw=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
-
-language messages en
-set iminsert=0
-set imsearch=0
 
 " source code style
 set cino +=(0,W4
