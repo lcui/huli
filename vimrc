@@ -70,9 +70,9 @@ set guioptions-=T
 map <C-SPACE> :simalt ~x<CR>
 map <A-SPACE> :simalt ~r<CR>
 
-nmap ,h  :f %:t:r.h<CR>
-nmap ,c  :f %:t:r.c<CR>
-nmap ,C  :f %:t:r.cpp<CR>
+nmap ,h  :find %:t:r.h<CR>
+nmap ,c  :find %:t:r.c<CR>
+nmap ,C  :find %:t:r.cpp<CR>
 
 if has("autocmd")
     filetype plugin indent on
