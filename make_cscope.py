@@ -17,7 +17,7 @@ def make_filelist(dir):
     if not dir:
         dir = "."
     dir = os.path.normpath(os.path.abspath(dir))
-    print dir
+    print (dir)
     fout = open("cscope.files", "w")
     extlist = [".c", ".cpp", ".h", ".cxx", ".hxx", ".java"]
     for ff in dirwalk(dir):

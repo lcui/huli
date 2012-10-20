@@ -17,14 +17,14 @@ verbose = False
 
 def ji(cmdline) :
     if verbose:
-        print "\t-> Runing command: %s" % cmdline
+        print ("\t-> Runing command: %s" % cmdline)
 
     return os.popen(cmdline).readlines()
 
 def jicat(fin, fout):
     fin = os.path.abspath(fin)
     if not os.path.exists(fin) :
-        print "%s does not exist" % fin
+        print ("%s does not exist" % fin)
         return
 
     gitroot = get_gitroot(fin)
@@ -49,7 +49,7 @@ def get_gitroot(fin):
                 break
             fin_dir = os.path.abspath(os.path.join(fin_dir, "../"))
     except:
-        print "not in a git repo"
+        print ("not in a git repo")
         fin_dir = None
     else:
         fin_dir = os.path.abspath(fin_dir)
@@ -78,8 +78,8 @@ def jibackup(argv, useless):
     else:
         outdir = "c:/tmp"
 
-    print outdir
-    print cmdline
+    print (outdir)
+    print (cmdline)
 
     files = ji(cmdline)
     if not files:
@@ -94,7 +94,7 @@ def jibackup(argv, useless):
         src = os.path.abspath(os.path.join(gitroot, src)).rstrip()
         if os.path.exists(src) :
             shutil.copy2(src, dirpart)
-            print "copied %s to %s" % (src, dirpart)
+            print ("copied %s to %s" % (src, dirpart))
 
 def jichangelist(useless1, useless2) :
     cmdline = "git status -s"
@@ -107,7 +107,7 @@ def jichangelist(useless1, useless2) :
         result.append(line)
 
     for line in result:
-        print line,
+        print (line, end="")
 
 def parse_cmdline(argv):
     cmdline = None
@@ -148,5 +148,5 @@ if __name__ == '__main__':
     if func:
         func(fin, fout)
     else:
-        print "Invalid command", __doc__
+        print ("Invalid command" + __doc__)
 
