@@ -1,6 +1,7 @@
-import os, sys, shutil
+import os, sys, shutil, filecmp
 #############################################################
 # compare two directory trees for files which are different.
+# and copy the different file in destination to copy_dir
 # Usage: python cmptree.py source destination copy_dir
 #############################################################
 
@@ -38,7 +39,7 @@ def copy_files(flist, cpy_dir):
         shutil.copy(f, to_file)
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print "usage: cmptree.py source destination"
+        print "usage: cmptree.py source destination copy_dir"
         exit()
 
     src = os.path.abspath(sys.argv[1])
@@ -54,9 +55,10 @@ if __name__ == "__main__":
 
         base_file = f.replace(src, dst, 1)
         if os.path.exists(base_file) :
-            cmd = "diff %s %s" % (f, base_file)
-            ll = os.popen(cmd).readlines()
-            if ll:
+            #cmd = "diff %s %s" % (f, base_file)
+            #ll = os.popen(cmd).readlines()
+            ll = filecmp.cmp(f, base_file)
+            if not ll:
                 #print "%s\n%s\n are different" % (f, base_file)
                 difflist.append(base_file)
 
@@ -72,11 +74,6 @@ if __name__ == "__main__":
             print "%s does not exist in source" % f
             difflist.append(f)
 
-    try :
-        copy_files(difflist, os.path.abspath(sys.argv[3]))
-        print "diff files are copied to %s" % sys.argv[3]
-    except:
-        for f in difflist:
-            print f
-        pass
+    copy_files(difflist, os.path.abspath(sys.argv[3]))
+    print "diff files are copied to %s" % sys.argv[3]
 
